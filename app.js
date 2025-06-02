@@ -1,111 +1,76 @@
-// ###########################################
-// CHUCK NORRIS API / FETCH API
+//Synchronous
 
-const loadJoke = async () => {
-  const chuckNorrisFetch = await fetch(
-    "https://api.chucknorris.io/jokes/random",
-    {
-      headers: {
-        Accept: "application/json",
-      },
-    }
-  );
+function task1(callback) {
+  setTimeout(() => {
+    console.log("1. Preheat the oven to 350°F (180°C).");
+    callback();
+  }, 1000);
+}
 
-  const jokeData = await chuckNorrisFetch.json();
+function task2(callback) {
+  setTimeout(() => {
+    console.log("2. Chop half the chocolate...");
+    callback();
+  }, 2000);
+}
 
-  console.log(jokeData.value);
-  document.getElementById("loadingJoke").innerHTML = jokeData.value;
-};
+function task3(callback) {
+  setTimeout(() => {
+    console.log("3. Mix butter & sugar.");
+    callback();
+  }, 1500);
+}
 
-document.getElementById("loadJokeBtn").addEventListener("click", loadJoke);
+function task4(callback) {
+  setTimeout(() => {
+    console.log("4. Beat in the eggs and vanilla... ");
+    callback();
+  }, 3000);
+}
 
-// ###########################################
-// WEATHER API / FETCH API
+function task5(callback) {
+  setTimeout(() => {
+    console.log("5. Whisk in the melted chocolate.");
+    callback();
+  }, 4000);
+}
 
-const date = document.querySelector("#date");
-const city = document.querySelector("#city");
-const temp = document.querySelector("#temp");
-const tempImg = document.querySelector("#temp-img");
-const description = document.querySelector("#description");
-const tempMax = document.querySelector("#temp-max");
-const tempMin = document.querySelector("#temp-min");
+function task6(callback) {
+  setTimeout(() => {
+    console.log("6. Fold in the other half of chocolate...");
+    callback();
+  }, 3500);
+}
 
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+function task7(callback) {
+  setTimeout(() => {
+    console.log("5. Bake for 20-25minutes...");
+    callback();
+  }, 1800);
+}
 
-let dateObj = new Date();
-let month = monthNames[dateObj.getUTCMonth()];
-let day = dateObj.getUTCDate() - 1;
-let year = dateObj.getUTCFullYear();
+function task8(callback) {
+  setTimeout(() => {
+    console.log("6. Slice, serve & enjoy!");
+    callback();
+  }, 500);
+}
 
-date.innerHTML = `${month} ${day}, ${year}`;
-
-const app = document.querySelector(".app");
-
-const getWeather = async () => {
-  try {
-    const cityName = document.getElementById("search-bar-input").value;
-    const weatherDataFetch = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${"LOAD API KEY IN HERE"}`,
-      {
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    );
-
-    const weatherData = await weatherDataFetch.json();
-    console.log(weatherData);
-    city.innerHTML = `${weatherData.name}`;
-    description.innerHTML = `${weatherData.weather[0].main}`;
-    tempImg.innerHTML = `<img src="http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png"/>`;
-    temp.innerHTML = `<h2>${Math.round(weatherData.main.temp)}°C</h2>`;
-    tempMax.innerHTML = `${weatherData.main.temp_max}°C`;
-    tempMin.innerHTML = `${weatherData.main.temp_min}°C`;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// ###########################################
-// POKEDEX API / FETCH API
-
-const getPokemon = async () => {
-  try {
-    const pokemonName = document
-      .getElementById("searchName")
-      .value.toLowerCase();
-    const pokemonData = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
-    );
-
-    if (!pokemonData.ok) {
-      throw new Error("Could not find pokemon");
-    }
-
-    const data = await pokemonData.json();
-    const pokemonImage = data.sprites.front_default;
-
-    const displayPokemon = document.getElementById("pokemonImg");
-
-    displayPokemon.src = pokemonImage;
-    displayPokemon.style.display = "block";
-  } catch (error) {
-    console.log(error);
-  }
-};
+task1(() => {
+  task2(() => {
+    task3(() => {
+      task4(() => {
+        task5(() => {
+          task6(() => {
+            task7(() => {
+              task8(() => {});
+            });
+          });
+        });
+      });
+    });
+  });
+});
 
 // 1.
 // kad se upali aplikacija da se izlistaju pokem0ni
