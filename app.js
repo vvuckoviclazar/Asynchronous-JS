@@ -1,21 +1,83 @@
-//Promisses
+// Promises / Async-Await
 
-const promiseOne = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("Promise one resolved!");
-  }, 2000);
-});
+const preHeatOven = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const preHeatOven = false;
 
-const promiseTwo = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    reject("Promise Two Rejected!");
-  }, 1500);
-});
+      if (preHeatOven) {
+        resolve("Preheat oven to 180deg");
+      } else {
+        reject("Failed Task");
+      }
+    }, 1000);
+  });
+};
 
-Promise.all([promiseOne, promiseTwo])
-  .then((data) => console.log(data[0], data[1]))
-  .catch((error) => console.log(error));
+const addSugarAndChocoChips = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const addChoco = true;
 
+      if (addChoco) {
+        resolve(
+          "Place butter and chocolate chips, stir until melted and smooth"
+        );
+      } else {
+        reject("Failed Task");
+      }
+    }, 1000);
+  });
+};
+
+const addFlourCocoaAndSalt = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const addSaltFlour = true;
+
+      if (preHeatOven) {
+        resolve("Add flour, coco and salt until smooth");
+      } else {
+        reject("Failed Task");
+      }
+    }, 1000);
+  });
+};
+
+const bakeMixture = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const bakeMixture = true;
+
+      if (bakeMixture) {
+        resolve("Bake for 24 minutes for really good center");
+      } else {
+        reject("Failed Task");
+      }
+    }, 1000);
+  });
+};
+
+const bakeChocolateBrownies = async () => {
+  try {
+    const taskOne = await preHeatOven();
+    console.log(taskOne);
+    const taskTwo = await addSugarAndChocoChips();
+    console.log(taskTwo);
+
+    const taskThree = await addFlourCocoaAndSalt();
+    console.log(taskThree);
+
+    const taskFour = await bakeMixture();
+    console.log(taskFour);
+
+    console.log("Enjoy! Your perfect Chocolate Brownies!");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+bakeChocolateBrownies();
 // 1.
 // kad se upali aplikacija da se izlistaju pokem0ni
 // neka se izlista 50 pokemona
