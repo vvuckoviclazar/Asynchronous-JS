@@ -1,76 +1,20 @@
-//Synchronous
+//Promisses
 
-function task1(callback) {
+const promiseOne = new Promise((resolve, reject) => {
   setTimeout(() => {
-    console.log("1. Preheat the oven to 350°F (180°C).");
-    callback();
-  }, 1000);
-}
-
-function task2(callback) {
-  setTimeout(() => {
-    console.log("2. Chop half the chocolate...");
-    callback();
+    resolve("Promise one resolved!");
   }, 2000);
-}
-
-function task3(callback) {
-  setTimeout(() => {
-    console.log("3. Mix butter & sugar.");
-    callback();
-  }, 1500);
-}
-
-function task4(callback) {
-  setTimeout(() => {
-    console.log("4. Beat in the eggs and vanilla... ");
-    callback();
-  }, 3000);
-}
-
-function task5(callback) {
-  setTimeout(() => {
-    console.log("5. Whisk in the melted chocolate.");
-    callback();
-  }, 4000);
-}
-
-function task6(callback) {
-  setTimeout(() => {
-    console.log("6. Fold in the other half of chocolate...");
-    callback();
-  }, 3500);
-}
-
-function task7(callback) {
-  setTimeout(() => {
-    console.log("5. Bake for 20-25minutes...");
-    callback();
-  }, 1800);
-}
-
-function task8(callback) {
-  setTimeout(() => {
-    console.log("6. Slice, serve & enjoy!");
-    callback();
-  }, 500);
-}
-
-task1(() => {
-  task2(() => {
-    task3(() => {
-      task4(() => {
-        task5(() => {
-          task6(() => {
-            task7(() => {
-              task8(() => {});
-            });
-          });
-        });
-      });
-    });
-  });
 });
+
+const promiseTwo = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject("Promise Two Rejected!");
+  }, 1500);
+});
+
+Promise.all([promiseOne, promiseTwo])
+  .then((data) => console.log(data[0], data[1]))
+  .catch((error) => console.log(error));
 
 // 1.
 // kad se upali aplikacija da se izlistaju pokem0ni
