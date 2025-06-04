@@ -1,83 +1,15 @@
-// Promises / Async-Await
-
-const preHeatOven = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const preHeatOven = false;
-
-      if (preHeatOven) {
-        resolve("Preheat oven to 180deg");
-      } else {
-        reject("Failed Task");
-      }
-    }, 1000);
-  });
-};
-
-const addSugarAndChocoChips = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const addChoco = true;
-
-      if (addChoco) {
-        resolve(
-          "Place butter and chocolate chips, stir until melted and smooth"
-        );
-      } else {
-        reject("Failed Task");
-      }
-    }, 1000);
-  });
-};
-
-const addFlourCocoaAndSalt = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const addSaltFlour = true;
-
-      if (preHeatOven) {
-        resolve("Add flour, coco and salt until smooth");
-      } else {
-        reject("Failed Task");
-      }
-    }, 1000);
-  });
-};
-
-const bakeMixture = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const bakeMixture = true;
-
-      if (bakeMixture) {
-        resolve("Bake for 24 minutes for really good center");
-      } else {
-        reject("Failed Task");
-      }
-    }, 1000);
-  });
-};
-
-const bakeChocolateBrownies = async () => {
+const getAllProducts = async () => {
   try {
-    const taskOne = await preHeatOven();
-    console.log(taskOne);
-    const taskTwo = await addSugarAndChocoChips();
-    console.log(taskTwo);
-
-    const taskThree = await addFlourCocoaAndSalt();
-    console.log(taskThree);
-
-    const taskFour = await bakeMixture();
-    console.log(taskFour);
-
-    console.log("Enjoy! Your perfect Chocolate Brownies!");
+    const response = await fetch("https://dummyjson.com/products/");
+    const json = await response.json();
+    console.log(json);
   } catch (error) {
     console.log(error);
   }
 };
 
-bakeChocolateBrownies();
+getAllProducts();
+
 // 1.
 // kad se upali aplikacija da se izlistaju pokem0ni
 // neka se izlista 50 pokemona
