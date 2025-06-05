@@ -1,14 +1,22 @@
-const getAllProducts = async () => {
+const loadJoke = async () => {
   try {
-    const response = await fetch("https://dummyjson.com/products/");
-    const json = await response.json();
-    console.log(json);
+    const chuckNorrisFetch = await fetch(
+      "https://api.chucknorris.io/joke/random",
+      {
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+
+    const jokesData = await chuckNorrisFetch.json();
+    document.getElementById("loadingJoke").innerHTML = jokesData.value;
   } catch (error) {
     console.log(error);
   }
 };
 
-getAllProducts();
+document.getElementById("loadJokeBtn").addEventListener("click", loadJoke);
 
 // 1.
 // kad se upali aplikacija da se izlistaju pokem0ni
