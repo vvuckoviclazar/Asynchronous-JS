@@ -1,25 +1,43 @@
-const loadJoke = async () => {
-  try {
-    const chuckNorrisFetch = await fetch(
-      "https://api.chucknorris.io/joke/random",
-      {
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    );
+const date = document.querySelector("#date");
+const city = document.querySelector("#city");
+const temp = document.querySelector("#temp");
+const tempImg = document.querySelector("#temp-img");
+const description = document.querySelector("#description");
+const tempMax = document.querySelector("#temp-max");
+const tempMin = document.querySelector("#temp-min");
 
-    const jokesData = await chuckNorrisFetch.json();
-    document.getElementById("loadingJoke").innerHTML = jokesData.value;
-  } catch (error) {
-    console.log(error);
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+let dateObj = new Date();
+let month = months[dateObj.getUTCMonth()];
+let day = dateObj.getUTCDate() - 1;
+let year = dateObj.getUTCFullYear();
+
+date.innerHTML = `${month} ${day}, ${year}`;
+
+const app = document.getElementById("app");
+
+const getWeather = async () => {
+  try {
+    
   }
 };
 
-document.getElementById("loadJokeBtn").addEventListener("click", loadJoke);
-
 // 1.
-// kad se upali aplikacija da se izlistaju pokem0ni
+// kad se upali aplikacija da se izlistaju pokemoni
 // neka se izlista 50 pokemona
 // klik na svakog pokemona treba da napravi zahtev za tog pojedinacnog pokemona
 // kad se klikne na pokemona prikazu se neke info
