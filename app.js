@@ -23,16 +23,35 @@ const months = [
 
 let dateObj = new Date();
 let month = months[dateObj.getUTCMonth()];
-let day = dateObj.getUTCDate() - 1;
+let day = dateObj.getUTCDate(); // no need to subtract 1
 let year = dateObj.getUTCFullYear();
 
 date.innerHTML = `${month} ${day}, ${year}`;
 
-const app = document.getElementById("app");
-
 const getWeather = async () => {
   try {
-    
+    const cityName = document.getElementById("search-bar-input").value;
+    if (!cityName) return alert("Please enter a city.");
+
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=YOUR_VALID_API_KEY_HERE&units=metric`
+    );
+
+    if (!response.ok) {
+      throw new Error("Weather not found or API key invalid.");
+    }
+
+    const weatherData = await response.json();
+
+    city.innerHTML = `${weatherData.name}`;
+    description.innerHTML = `${weatherData.weather[0].main}`;
+    tempImg.innerHTML = `<img src="http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png"/>`;
+    temp.innerHTML = `<h2>${Math.round(weatherData.main.temp)}°C</h2>`;
+    tempMax.innerHTML = `${Math.round(weatherData.main.temp_max)}°C`;
+    tempMin.innerHTML = `${Math.round(weatherData.main.temp_min)}°C`;
+  } catch (error) {
+    console.error("Fetch error:", error.message);
+    alert("Failed to get weather. Check city name or API key.");
   }
 };
 
