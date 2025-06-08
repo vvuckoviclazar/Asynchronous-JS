@@ -1,59 +1,43 @@
-const date = document.querySelector("#date");
-const city = document.querySelector("#city");
-const temp = document.querySelector("#temp");
-const tempImg = document.querySelector("#temp-img");
-const description = document.querySelector("#description");
-const tempMax = document.querySelector("#temp-max");
-const tempMin = document.querySelector("#temp-min");
+const pokemonList = document.querySelector(".pokemon-list");
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+const allPokemons = [];
 
-let dateObj = new Date();
-let month = months[dateObj.getUTCMonth()];
-let day = dateObj.getUTCDate(); // no need to subtract 1
-let year = dateObj.getUTCFullYear();
-
-date.innerHTML = `${month} ${day}, ${year}`;
-
-const getWeather = async () => {
+const fetchPokemons = async () => {
   try {
-    const cityName = document.getElementById("search-bar-input").value;
-    if (!cityName) return alert("Please enter a city.");
+    const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=50");
+    const data = await res.json();
 
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=YOUR_VALID_API_KEY_HERE&units=metric`
-    );
+    for (const pokemon of data.results) {
+      const detailsRes = await fetch(pokemon.url);
+      const detailsData = await detailsRes.json();
 
-    if (!response.ok) {
-      throw new Error("Weather not found or API key invalid.");
+      allPokemons.push({
+        name: detailsData.name,
+        image: detailsData.sprites.front_default,
+      });
     }
 
-    const weatherData = await response.json();
-
-    city.innerHTML = `${weatherData.name}`;
-    description.innerHTML = `${weatherData.weather[0].main}`;
-    tempImg.innerHTML = `<img src="http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png"/>`;
-    temp.innerHTML = `<h2>${Math.round(weatherData.main.temp)}°C</h2>`;
-    tempMax.innerHTML = `${Math.round(weatherData.main.temp_max)}°C`;
-    tempMin.innerHTML = `${Math.round(weatherData.main.temp_min)}°C`;
+    renderPokemons();
   } catch (error) {
-    console.error("Fetch error:", error.message);
-    alert("Failed to get weather. Check city name or API key.");
+    console.error("Failed to fetch Pokémon data:", error);
+    pokemonList.innerHTML = `<li>Error loading Pokémon list.</li>`;
   }
 };
+
+const renderPokemons = () => {
+  pokemonList.innerHTML = "";
+
+  allPokemons.forEach((pokemon) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <img src="${pokemon.image}" alt="${pokemon.name}" class="pokemon-picture"/>
+           <h3>${pokemon.name}</h3>
+    `;
+    pokemonList.appendChild(li);
+  });
+};
+
+fetchPokemons();
 
 // 1.
 // kad se upali aplikacija da se izlistaju pokemoni
