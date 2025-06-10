@@ -25,7 +25,7 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 20rem;
-  background-color: rgb(57, 122, 163);
+  background-color: rgb(34, 96, 135);
   padding: 20rem;
 }
 
@@ -36,6 +36,7 @@ li {
   flex-direction: column;
   background-color: rgb(2, 26, 66);
   border-radius: 7rem;
+  border: 2rem solid rgb(169, 127, 20);
 }
 
 li:hover {
@@ -87,6 +88,26 @@ select {
   border: 1rem solid goldenrod;
 }
 
+.search-btn {
+  background-color: rgb(1, 54, 88);
+  color: goldenrod;
+  font-weight: bolder;
+  border: 2rem goldenrod solid;
+  font-size: 17rem;
+  border-radius: 3rem;
+  padding: 1rem 10rem 1rem 10rem;
+}
+
+.search-btn:hover {
+  background-color: rgb(10, 87, 135);
+  color: rgb(228, 177, 50);
+  font-weight: bolder;
+  border: 2rem rgb(226, 175, 48) solid;
+  font-size: 17rem;
+  border-radius: 3rem;
+  padding: 1rem 10rem 1rem 10rem;
+}
+
 label {
   font-size: 24rem;
 }
@@ -122,7 +143,7 @@ label {
 }
 
 .modal-content {
-  background-color: rgb(53, 100, 138);
+  background-color: rgb(18, 62, 95);
   color: rgb(187, 136, 6);
   border: 4rem solid rgb(178, 132, 18);
   border-radius: 8rem;
