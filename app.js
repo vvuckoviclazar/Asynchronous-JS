@@ -1,6 +1,7 @@
 const pokemonList = document.querySelector(".pokemon-list");
 const searchForm = document.querySelector(".search-form");
 const searchInput = document.querySelector(".search-pokemon");
+const typeSelect = document.querySelector(".select-pokemons");
 
 let allPokemons = [];
 
@@ -17,6 +18,7 @@ const fetchPokemons = async () => {
         id: detailsData.id,
         name: detailsData.name,
         image: detailsData.sprites.front_default,
+        types: detailsData.types.map((t) => t.type.name),
       });
     }
 
@@ -123,6 +125,25 @@ const renderFilteredPokemons = (filteredPokemons) => {
     pokemonList.appendChild(li);
   });
 };
+
+typeSelect.addEventListener("change", () => {
+  const selectedType = typeSelect.value;
+
+  if (selectedType === "all") {
+    renderPokemons();
+    return;
+  }
+
+  const filtered = allPokemons.filter((pokemon) =>
+    pokemon.types.includes(selectedType)
+  );
+
+  if (filtered.length > 0) {
+    renderFilteredPokemons(filtered);
+  } else {
+    pokemonList.innerHTML = `<li>No Pokémon with type "${selectedType}"</li>`;
+  }
+});
 
 // kad se klikne na pokemona
 // procitaj id sa njega
