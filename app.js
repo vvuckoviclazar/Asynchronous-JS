@@ -1,4 +1,6 @@
 const pokemonList = document.querySelector(".pokemon-list");
+const searchForm = document.querySelector(".search-form");
+const searchInput = document.querySelector(".search-pokemon");
 
 let allPokemons = [];
 
@@ -82,6 +84,44 @@ const showPokemonModal = ({ name, height, weight, types, abilities }) => {
       modal.classList.add("hidden");
     }
   };
+};
+
+searchForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const searchTerm = searchInput.value.toLowerCase().trim();
+
+  if (searchTerm === "") {
+    renderPokemons();
+    return;
+  }
+
+  const filtered = allPokemons.filter(
+    (pokemon) => pokemon.name.toLowerCase() === searchTerm
+  );
+
+  if (filtered.length > 0) {
+    renderFilteredPokemons(filtered);
+  } else {
+    pokemonList.innerHTML = `<li>No Pokémon found with the name "${searchTerm}"</li>`;
+  }
+});
+
+const renderFilteredPokemons = (filteredPokemons) => {
+  pokemonList.innerHTML = "";
+
+  filteredPokemons.forEach((pokemon) => {
+    const li = document.createElement("li");
+    li.id = pokemon.id;
+    li.innerHTML = `
+      <img src="${pokemon.image}" alt="${pokemon.name}" class="pokemon-picture"/>
+      <h3>${pokemon.name}</h3>
+    `;
+
+    li.addEventListener("click", () => handlePokemonClick(pokemon.id));
+
+    pokemonList.appendChild(li);
+  });
 };
 
 // kad se klikne na pokemona
