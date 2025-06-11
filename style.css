@@ -178,3 +178,9 @@ span {
   font-size: 30rem;
   cursor: pointer;
 }
+
+.error {
+  font-size: 30rem;
+  color: goldenrod;
+  padding: 20rem;
+}

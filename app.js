@@ -105,7 +105,7 @@ searchForm.addEventListener("submit", (e) => {
   if (filtered.length > 0) {
     renderFilteredPokemons(filtered);
   } else {
-    pokemonList.innerHTML = `<li>No Pokémon found with the name "${searchTerm}"</li>`;
+    pokemonList.innerHTML = `<li class="error">No Pokémon found with the name "${searchTerm}"</li>`;
   }
 });
 
@@ -141,7 +141,7 @@ typeSelect.addEventListener("change", () => {
   if (filtered.length > 0) {
     renderFilteredPokemons(filtered);
   } else {
-    pokemonList.innerHTML = `<li>No Pokémon with type "${selectedType}"</li>`;
+    pokemonList.innerHTML = `<li class="error">No Pokémon with type "${selectedType}".</li>`;
   }
 });
 
