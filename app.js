@@ -88,7 +88,7 @@ const showPokemonModal = ({ name, height, weight, types, abilities }) => {
   };
 };
 
-searchForm.addEventListener("submit", (e) => {
+searchForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const searchTerm = searchInput.value.toLowerCase().trim();
@@ -98,13 +98,20 @@ searchForm.addEventListener("submit", (e) => {
     return;
   }
 
-  const filtered = allPokemons.filter(
-    (pokemon) => pokemon.name.toLowerCase() === searchTerm
-  );
+  try {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchTerm}`);
 
-  if (filtered.length > 0) {
-    renderFilteredPokemons(filtered);
-  } else {
+    const data = await res.json();
+
+    const pokemon = {
+      id: data.id,
+      name: data.name,
+      image: data.sprites.front_default,
+      types: data.types.map((t) => t.type.name),
+    };
+
+    renderFilteredPokemons([pokemon]);
+  } catch (error) {
     pokemonList.innerHTML = `<li class="error">No Pokémon found with the name "${searchTerm}"</li>`;
   }
 });
@@ -126,7 +133,7 @@ const renderFilteredPokemons = (filteredPokemons) => {
   });
 };
 
-typeSelect.addEventListener("change", () => {
+typeSelect.addEventListener("change", async () => {
   const selectedType = typeSelect.value;
 
   if (selectedType === "all") {
@@ -134,25 +141,29 @@ typeSelect.addEventListener("change", () => {
     return;
   }
 
-  const filtered = allPokemons.filter((pokemon) =>
-    pokemon.types.includes(selectedType)
-  );
+  try {
+    const res = await fetch(`https://pokeapi.co/api/v2/type/${selectedType}`);
 
-  if (filtered.length > 0) {
-    renderFilteredPokemons(filtered);
-  } else {
-    pokemonList.innerHTML = `<li class="error">No Pokémon with type "${selectedType}".</li>`;
+    const data = await res.json();
+
+    const pokemonEntries = data.pokemon;
+
+    const pokemonDetails = await Promise.all(
+      pokemonEntries.map(async (entry) => {
+        const res = await fetch(entry.pokemon.url);
+        const details = await res.json();
+        return {
+          id: details.id,
+          name: details.name,
+          image: details.sprites.front_default,
+          types: details.types.map((t) => t.type.name),
+        };
+      })
+    );
+
+    renderFilteredPokemons(pokemonDetails);
+  } catch (error) {
+    console.error(error);
+    pokemonList.innerHTML = `<li class="error">No Pokémon found with type "${selectedType}"</li>`;
   }
 });
-
-// kad se klikne na pokemona
-// procitaj id sa njega
-// napravi zahtev ka bazi za pokemona sa tim id
-// izvuci neke podatke po zelji
-// prikazi u modalu te podatke
-
-// dodaj search input
-// na submit pokusaj da dohvatis podatke za pokemona sa tim imenom
-
-// pokusaj da napravis dohvacanje pokemona po tipu (vatra, voda, vetar...)
-// pristup ce biti isti kao za pocetnu listu (get.pokemons) https://pokeapi.co/api/v2/type/water
