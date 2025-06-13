@@ -88,21 +88,24 @@ const showPokemonModal = ({ name, height, weight, types, abilities }) => {
   };
 };
 
-searchForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+function debounce(fn, delay) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
 
+const liveSearch = async () => {
   const searchTerm = searchInput.value.toLowerCase().trim();
-
-  if (searchTerm === "") {
+  if (!searchTerm) {
     renderPokemons();
     return;
   }
 
   try {
     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchTerm}`);
-
     const data = await res.json();
-
     const pokemon = {
       id: data.id,
       name: data.name,
@@ -114,7 +117,9 @@ searchForm.addEventListener("submit", async (e) => {
   } catch (error) {
     pokemonList.innerHTML = `<li class="error">No Pokémon found with the name "${searchTerm}"</li>`;
   }
-});
+};
+
+searchInput.addEventListener("input", debounce(liveSearch, 400));
 
 const renderFilteredPokemons = (filteredPokemons) => {
   pokemonList.innerHTML = "";
@@ -167,3 +172,5 @@ typeSelect.addEventListener("change", async () => {
     pokemonList.innerHTML = `<li class="error">No Pokémon found with type "${selectedType}"</li>`;
   }
 });
+
+// pogledaj sta je debounce
